@@ -3,7 +3,6 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LocationPopupPage extends BasicPage {
@@ -18,7 +17,7 @@ public class LocationPopupPage extends BasicPage {
 	}
 
 	public WebElement getCloseButton() {
-		return driver.findElement(By.className("close-btn"));
+		return driver.findElement(By.xpath("//*[@class='close-btn close-btn-white']"));
 	}
 
 	public WebElement getKeyword() {
@@ -38,7 +37,13 @@ public class LocationPopupPage extends BasicPage {
 	}
 
 	// Methods
-	// Opens Location Popup
+	public void selectLocation(String locationName) {
+		getKeyword().click();
+		getLocationItem(locationName).click();
+		clickOnSubmit();
+	}
+
+	// Clicks
 	public void clickOnLocationHeader() {
 		getLocationHeader().click();
 	}
@@ -47,9 +52,7 @@ public class LocationPopupPage extends BasicPage {
 		getSubmit().click();
 	}
 
-	public void selectLocation(String locationName) {
-		getKeyword().click();
-		getLocationItem(locationName).click();
-		clickOnSubmit();
+	public void clickOnCloseButton() {
+		getCloseButton().click();
 	}
 }
