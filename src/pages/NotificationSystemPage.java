@@ -7,22 +7,30 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class NotificationSystemPage extends BasicPage {
-
 	public NotificationSystemPage(WebDriver driver, WebDriverWait wait) {
 		super(driver, wait);
 	}
 
 	// Elements
-	public WebElement getMessageAlert() {
+	public WebElement getMessage() {
 		return driver.findElement(By.xpath("//*[contains(@class, 'alert--success')]"));
 	}
 
 	// Methods
-	public String getMessageText() {
-		return driver.findElement(By.xpath("//*[contains(@class, 'alert--success')]/div/div/ul/li")).getText();
+	public boolean waitForMsgToDisappear() {
+		try {
+			wait.until(ExpectedConditions.attributeContains(getMessage(), "style", "none"));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
-
-	public void waitForMsgToDisappear() {
-		wait.until(ExpectedConditions.attributeContains(getMessageAlert(), "hidden", "hidden"));
+	public boolean waitForMsgToAppear() {
+		try {
+			wait.until(ExpectedConditions.attributeContains(getMessage(), "style", "block"));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

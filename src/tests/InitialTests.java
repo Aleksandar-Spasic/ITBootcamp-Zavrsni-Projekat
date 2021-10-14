@@ -1,55 +1,61 @@
 package tests;
 
 import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.KeyDownAction;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import helper.Helper;
 
 public class InitialTests extends BasicTest {
 
-	@Test(priority = 0, enabled = false)
-	public void test() {
-		driver.get(baseURL);
-
-		locationPopupPage.clickOnCloseButton();
-	}
-
-	@Test(priority = 0, enabled = false)
-	public void locationPopup() throws InterruptedException {
-		driver.get(baseURL);
-
-		String locationName = "Arbor Hill - Albany";
-		locationPopupPage.selectLocation(locationName);
-
-		Thread.sleep(5000);
-	}
-
 	@Test(priority = 0, enabled = true)
-	public void login() throws InterruptedException, AWTException {
+	public void login() throws InterruptedException {
 		driver.get(loginPageURL);
-
 		locationPopupPage.clickOnCloseButton();
 		loginPage.login(username, password);
+		Assert.assertTrue(notificationPage.waitForMsgToAppear(), "Message did not appear, login was not successful.");
+	}
 
+	@Test(priority = 1, enabled = false, dependsOnMethods = "login")
+	public void editProfile() throws InterruptedException {
+		driver.get(profilePageURL);
+		profilePage.setFirstNameField(firstName);
+		profilePage.setLastNameField(lastName);
+		profilePage.setAddressField(address);
+		profilePage.setPhoneField(phone);
+		profilePage.setZipcodeField(zip);
+		profilePage.clickOnSave();
+		Assert.assertTrue(notificationPage.waitForMsgToAppear(), "Message did not appear, setup was not successful.");
+
+		authorizationPage.logout();
+		Assert.assertTrue(notificationPage.waitForMsgToAppear(), "Message did not appear, logout was not successful.");
+	}
+
+	@Test(priority = 2, enabled = false, dependsOnMethods = "login")
+	public void changeProfileImage() throws InterruptedException, AWTException {
 		driver.get(profilePageURL);
 		Thread.sleep(1500);
 		profilePage.clickOnUploadAvatar();
-
-//		Actions actions = new Actions(driver);
-//		actions.sendKeys(Keys.ESCAPE);
-//		actions.perform();
-
-		Robot robot = new Robot();
-		robot.keyPress(KeyEvent.VK_ESCAPE);
-		robot.keyRelease(KeyEvent.VK_ESCAPE);
-
-		Thread.sleep(2000);
-		System.out.println(System.getProperty("user.dir"));
+		Helper.pressEscape();
+		Thread.sleep(1500);
 		profilePage.uploadAvatar(System.getProperty("user.dir") + avatarPath);
+		Assert.assertTrue(notificationPage.waitForMsgToAppear(), "Message did not appear, image is not uploaded.");
+
+		notificationPage.waitForMsgToDisappear();
+		profilePage.clickOnRemove();
+		Assert.assertTrue(notificationPage.waitForMsgToAppear(), "Message did not appear, image is not removed.");
+
+		notificationPage.waitForMsgToDisappear();
+		authorizationPage.logout();
+		Assert.assertTrue(notificationPage.waitForMsgToAppear(), "Message did not appear, logout was not successful.");
+	}
+
+	@Test(priority = 3, enabled = true)
+	public void addMealToCart() {
+		driver.get(mealPageURL);
+		locationPopupPage.clickOnCloseButton();
+		mealPage.setQuantity("3");
 
 	}
 }
