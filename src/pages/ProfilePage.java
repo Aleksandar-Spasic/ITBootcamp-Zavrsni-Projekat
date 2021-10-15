@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -104,5 +105,13 @@ public class ProfilePage extends BasicPage {
 	}
 	public void setCity(String string) {
 		getCity().selectByVisibleText(string);
+	}
+	
+	//
+	public void uploadImage(String image) throws InterruptedException {
+		js.executeScript("arguments[0].click();", getUploadButton());
+		Thread.sleep(2000);
+		WebElement input = driver.findElement(By.xpath("//*[@id='form-upload']/input"));
+		input.sendKeys(image);
 	}
 }

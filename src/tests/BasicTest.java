@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.asserts.SoftAssert;
 
 import pages.AuthorizationPage;
 import pages.CartSummaryPage;
@@ -21,6 +22,7 @@ import pages.SearchResultPage;
 abstract class BasicTest {
 	protected WebDriver driver;
 	protected WebDriverWait wait;
+	protected SoftAssert sa;
 
 	// Pages
 	protected LocationPopupPage locationPopupPage;
@@ -63,6 +65,7 @@ abstract class BasicTest {
 		driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		wait = new WebDriverWait(driver, 10);
+		sa = new SoftAssert();
 
 		locationPopupPage = new LocationPopupPage(driver, wait);
 		loginPage = new LoginPage(driver, wait);
