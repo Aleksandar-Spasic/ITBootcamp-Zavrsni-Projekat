@@ -18,9 +18,13 @@ public class MealPage extends BasicPage{
 	public WebElement getAddToCartButton() {
 		return driver.findElement(By.xpath("//*[contains(@class, 'js-proceedtoAddInCart')]"));
 	}
+	public WebElement getAddToFavoriteButton() {
+		return driver.findElement(By.xpath("//a[@id='item_119']"));
+	}
 	
 	// Set
 	public void setQuantity(String value) {
+		getQuantityInput().click();
 		getQuantityInput().clear();
 		getQuantityInput().sendKeys(value);
 	}
@@ -28,5 +32,8 @@ public class MealPage extends BasicPage{
 	// Clicks
 	public void clickOnAddToCartButton() {
 		getAddToCartButton().click();
+	}
+	public void clickOnAddToFavoriteButton() {
+		getAddToFavoriteButton().click();
 	}
 }

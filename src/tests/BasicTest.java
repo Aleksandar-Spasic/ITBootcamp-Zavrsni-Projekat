@@ -8,9 +8,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 
-import pages.*;
+import pages.AuthorizationPage;
+import pages.CartSummaryPage;
+import pages.LocationPopupPage;
+import pages.LoginPage;
+import pages.MealPage;
+import pages.NotificationSystemPage;
+import pages.ProfilePage;
+import pages.SearchResultPage;
 
 abstract class BasicTest {
 	protected WebDriver driver;
@@ -30,7 +36,8 @@ abstract class BasicTest {
 	protected String baseURL = "https://demo.yo-meals.com/";
 	protected String loginPageURL = baseURL + "guest-user/login-form";
 	protected String profilePageURL = baseURL + "member/profile";
-	protected String mealPageURL = baseURL + "meal/lobster-shrimp-chicken-quesadilla-combo";
+	protected String lobsterPageURL = baseURL + "meal/lobster-shrimp-chicken-quesadilla-combo";
+	protected String mealsPageURL = baseURL + "meals";
 
 	// Credentials
 	protected String username = "customer@dummyid.com";
@@ -45,6 +52,8 @@ abstract class BasicTest {
 	protected String address = "Topolska 18";
 	protected String phone = "808080";
 	protected String zip = "11000";
+	
+	protected String location = "City Center - Albany";
 
 	@BeforeClass
 	public void beforeMethod() {
@@ -68,7 +77,6 @@ abstract class BasicTest {
 	@AfterMethod
 	public void afterMethod() throws InterruptedException {
 		Thread.sleep(1000);
-//		driver.quit();
 	}
 
 	@AfterClass

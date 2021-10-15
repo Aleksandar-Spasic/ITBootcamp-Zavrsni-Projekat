@@ -12,22 +12,41 @@ public class NotificationSystemPage extends BasicPage {
 	}
 
 	// Elements
-	public WebElement getMessage() {
+	public WebElement getAlertSuccess() {
 		return driver.findElement(By.xpath("//*[contains(@class, 'alert--success')]"));
+	}
+	public WebElement getAlertDanger() {
+		return driver.findElement(By.xpath("//*[contains(@class, 'alert--danger')]"));
 	}
 
 	// Methods
-	public boolean waitForMsgToDisappear() {
+	public boolean waitAlertSuccessToDisappear() {
 		try {
-			wait.until(ExpectedConditions.attributeContains(getMessage(), "style", "none"));
+			wait.until(ExpectedConditions.attributeContains(getAlertSuccess(), "style", "none"));
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
-	public boolean waitForMsgToAppear() {
+	public boolean waitAlertSuccessToAppear() {
 		try {
-			wait.until(ExpectedConditions.attributeContains(getMessage(), "style", "block"));
+			wait.until(ExpectedConditions.attributeContains(getAlertSuccess(), "style", "block"));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	public boolean waitAlertDangerToDisappear() {
+		try {
+			wait.until(ExpectedConditions.attributeContains(getAlertDanger(), "style", "none"));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	public boolean waitAlertDangerToAppear() {
+		try {
+			wait.until(ExpectedConditions.attributeContains(getAlertDanger(), "style", "block"));
 			return true;
 		} catch (Exception e) {
 			return false;
