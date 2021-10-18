@@ -1,6 +1,5 @@
 package tests;
 
-import java.awt.AWTException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,58 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class InitialTests extends BasicTest {
-
-	@Test(priority = 0, enabled = false)
-	public void login() throws InterruptedException {
-		driver.get(loginPageURL);
-		locationPopupPage.clickOnCloseButton();
-		loginPage.login(username, password);
-		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(),
-				"Message did not appear, login was not successful.");
-	}
-
-	@Test(priority = 1, enabled = false, dependsOnMethods = "login")
-	public void editProfile() throws InterruptedException {
-		driver.get(profilePageURL);
-		profilePage.setFirstNameField(firstName);
-		profilePage.setLastNameField(lastName);
-		profilePage.setAddressField(address);
-		profilePage.setPhoneField(phone);
-		profilePage.setZipcodeField(zip);
-		profilePage.clickOnSave();
-		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(),
-				"Message did not appear, setup was not successful.");
-
-		authorizationPage.logout();
-		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(),
-				"Message did not appear, logout was not successful.");
-	}
-
-	@Test(priority = 2, enabled = false, dependsOnMethods = "login")
-	public void changeProfileImage() throws InterruptedException, AWTException {
-		driver.get(profilePageURL);
-		Thread.sleep(1500);
-
-//		profilePage.clickOnUploadAvatar();
-//		Helper.pressEscape();
-//		Thread.sleep(1500);
-//		profilePage.uploadAvatar(System.getProperty("user.dir") + avatarPath);
-//		
-		profilePage.uploadImage(System.getProperty("user.dir") + avatarPath);
-
-		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(),
-				"Message did not appear, image is not uploaded.");
-
-		notificationPage.waitAlertSuccessToDisappear();
-		profilePage.clickOnRemove();
-		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(), "Message did not appear, image is not removed.");
-
-		notificationPage.waitAlertSuccessToDisappear();
-		authorizationPage.logout();
-		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(),
-				"Message did not appear, logout was not successful.");
-	}
+public class MealItemTests extends BasicTests{
 
 	@Test(priority = 3, enabled = false)
 	public void addMealToCart() throws InterruptedException {
@@ -123,5 +71,4 @@ public class InitialTests extends BasicTest {
 
 		sa.assertAll();
 	}
-
 }

@@ -5,9 +5,11 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import pages.AuthorizationPage;
@@ -19,7 +21,7 @@ import pages.NotificationSystemPage;
 import pages.ProfilePage;
 import pages.SearchResultPage;
 
-abstract class BasicTest {
+abstract class BasicTests {
 	protected WebDriver driver;
 	protected WebDriverWait wait;
 	protected SoftAssert sa;
@@ -75,6 +77,15 @@ abstract class BasicTest {
 		mealPage = new MealPage(driver, wait);
 		searchResultPage = new SearchResultPage(driver, wait);
 		authorizationPage = new AuthorizationPage(driver, wait);
+	}
+	
+	@Test(priority = 0, enabled = false)
+	public void login() throws InterruptedException {
+		driver.get(loginPageURL);
+		locationPopupPage.clickOnCloseButton();
+		loginPage.login(username, password);
+		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(),
+				"Message did not appear, login was not successful.");
 	}
 
 	@AfterMethod
