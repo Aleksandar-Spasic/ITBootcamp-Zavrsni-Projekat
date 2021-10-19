@@ -58,7 +58,6 @@ public class ProfilePage extends BasicPage {
 		return new Select(driver.findElement(By.id("user_state_id")));
 	}
 	public Select getCity() {
-
 		return new Select(driver.findElement(By.id("user_city")));
 	}
 	

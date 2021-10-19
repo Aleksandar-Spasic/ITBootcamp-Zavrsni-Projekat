@@ -9,47 +9,57 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class MealItemTests extends BasicTests{
+public class MealItemTests extends BasicTests {
 
-	@Test(priority = 3, enabled = false)
+	@Test(priority = 1, enabled = true)
 	public void addMealToCart() throws InterruptedException {
 		driver.get(lobsterPageURL);
 		locationPopupPage.clickOnCloseButton();
-//		mealPage.setQuantity("3");
+		mealPage.setQuantity("3");
 		mealPage.clickOnAddToCartButton();
-		Assert.assertTrue(notificationPage.waitAlertDangerToAppear(),
+		notificationPage.waitAlertDangerToAppear();
+		Assert.assertTrue(notificationPage.getAlertDangerText().contains("Please Select Location"),
 				"Message [please select location] did not appear");
+
 		notificationPage.waitAlertDangerToDisappear();
 		locationPopupPage.clickOnLocationHeader();
 		locationPopupPage.selectLocation(location);
 		notificationPage.waitAlertSuccessToDisappear();
-//		mealPage.setQuantity("2");
+		mealPage.setQuantity("2");
 		mealPage.clickOnAddToCartButton();
-		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(), "Message did not appear, meal is not added.");
+		notificationPage.waitAlertSuccessToAppear();
+		Assert.assertTrue(notificationPage.getAlertSuccessText().contains("Meal Added To Cart"),
+				"Message did not appear, meal is not added.");
 	}
 
-	@Test(priority = 4, enabled = false)
+	@Test(priority = 2, enabled = true)
 	public void addMealToFavorite() throws InterruptedException {
 		driver.get(lobsterPageURL);
-		locationPopupPage.clickOnCloseButton();
 		mealPage.clickOnAddToFavoriteButton();
-		Assert.assertTrue(notificationPage.waitAlertDangerToAppear(), "Message [Please login first] did not appear.");
+		Assert.assertTrue(notificationPage.getAlertDangerText().contains("Please login first!"),
+				"Message [Please login first] did not appear.");
 
 		driver.get(loginPageURL);
 		loginPage.login(username, password);
-		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(),
+		notificationPage.waitAlertSuccessToAppear();
+		Assert.assertTrue(notificationPage.getAlertSuccessText().contains("Login Successfull"),
 				"Message did not appear, login was not successful.");
 
 		driver.get(lobsterPageURL);
 		mealPage.clickOnAddToFavoriteButton();
-		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(),
+		notificationPage.waitAlertSuccessToAppear();
+		Assert.assertTrue(notificationPage.getAlertSuccessText().contains("Product has been added to your favorites."),
 				"Message did not appear, meal is not added to favorites.");
+		
+		authorizationPage.logout();
+		notificationPage.waitAlertSuccessToAppear();
+		Assert.assertTrue(notificationPage.getAlertSuccessText().contains("Logout Successfull"),
+				"Message did not appear, logout was not successful.");
 	}
 
-	@Test(priority = 5, enabled = true)
+	@Test(priority = 3, enabled = true)
 	public void clearCart() throws IOException {
 		driver.get(mealsPageURL);
-		locationPopupPage.selectLocation(location);
 
 		File file = new File("data/Data.xlsx");
 		FileInputStream fileStream = new FileInputStream(file);
@@ -61,12 +71,15 @@ public class MealItemTests extends BasicTests{
 			XMLmealURL = sheetForm.getRow(i).getCell(0).getStringCellValue();
 			driver.get(XMLmealURL);
 			mealPage.clickOnAddToCartButton();
-			sa.assertTrue(notificationPage.waitAlertSuccessToAppear(), "Message is not visible.");
+//			notificationPage.waitAlertSuccessToAppear();
+			sa.assertTrue(notificationPage.getAlertSuccessText().contains("Meal Added To Cart"),
+					"Message did not appear, meal is not added.");
 		}
 		wb.close();
 
 		cartPage.clickOnClearCartButton();
-		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(),
+//		notificationPage.waitAlertSuccessToAppear();
+		Assert.assertTrue(notificationPage.getAlertSuccessText().contains("All meals removed from Cart successfully"),
 				"Message did not appear, cart items are not cleared.");
 
 		sa.assertAll();

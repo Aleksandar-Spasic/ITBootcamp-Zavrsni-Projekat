@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,7 +26,7 @@ public class MealPage extends BasicPage{
 	// Set
 	public void setQuantity(String value) {
 		getQuantityInput().click();
-		getQuantityInput().clear();
+		getQuantityInput().sendKeys(Keys.chord(Keys.CONTROL + "a"));
 		getQuantityInput().sendKeys(value);
 	}
 

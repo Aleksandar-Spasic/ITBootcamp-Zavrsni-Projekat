@@ -18,7 +18,7 @@ public class NotificationSystemPage extends BasicPage {
 	public WebElement getAlertDanger() {
 		return driver.findElement(By.xpath("//*[contains(@class, 'alert--danger')]"));
 	}
-
+	
 	// Methods
 	public boolean waitAlertSuccessToDisappear() {
 		try {
@@ -51,5 +51,22 @@ public class NotificationSystemPage extends BasicPage {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	public String getLoginSuccessAlertText() {
+		return getAlertSuccess().findElement(By.xpath("//div[@class='div_msg']/ul/li")).getText();
+	}
+	public String getLogoutSuccessAlertText() {
+		return getAlertSuccess().findElement(By.xpath("//div[@class='div_msg']/ul/li")).getText();
+	}
+	public String getSetupSuccessAlertText() {
+		return getAlertSuccess().findElement(By.xpath("//div[@class'content']")).getText();
+	}
+
+	public String getAlertSuccessText() {
+		return getAlertSuccess().getText();
+	}
+	public String getAlertDangerText() {
+		return getAlertDanger().getText();
 	}
 }

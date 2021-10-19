@@ -64,8 +64,8 @@ abstract class BasicTests {
 		System.setProperty("webdriver.chrome.driver", "driver-lib\\chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
-		driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		wait = new WebDriverWait(driver, 10);
 		sa = new SoftAssert();
 
@@ -78,24 +78,15 @@ abstract class BasicTests {
 		searchResultPage = new SearchResultPage(driver, wait);
 		authorizationPage = new AuthorizationPage(driver, wait);
 	}
-	
-	@Test(priority = 0, enabled = false)
-	public void login() throws InterruptedException {
-		driver.get(loginPageURL);
-		locationPopupPage.clickOnCloseButton();
-		loginPage.login(username, password);
-		Assert.assertTrue(notificationPage.waitAlertSuccessToAppear(),
-				"Message did not appear, login was not successful.");
-	}
 
 	@AfterMethod
 	public void afterMethod() throws InterruptedException {
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 	}
 
 	@AfterClass
 	public void afterClass() throws InterruptedException {
-		Thread.sleep(3000);
+		Thread.sleep(2000);
 		driver.quit();
 	}
 }
