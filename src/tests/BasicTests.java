@@ -1,5 +1,6 @@
 package tests;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
@@ -12,6 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import helper.Helper;
 import pages.AuthorizationPage;
 import pages.CartSummaryPage;
 import pages.LocationPopupPage;
@@ -80,8 +82,9 @@ abstract class BasicTests {
 	}
 
 	@AfterMethod
-	public void afterMethod() throws InterruptedException {
+	public void afterMethod() throws InterruptedException, IOException {
 		Thread.sleep(2000);
+		Helper.screenshot(driver);
 	}
 
 	@AfterClass
